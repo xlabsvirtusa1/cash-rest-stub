@@ -1,0 +1,228 @@
+---
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "icash-rest-stub"
+host: "localhost:3002"
+basePath: "/"
+tags:
+- name: "Fetch Delegate"
+  description: "Get Delegate(s) details"
+schemes:
+- "http"
+paths:
+  /delegate:
+    get:
+      tags:
+      - "Fetch Delegate"
+      summary: "Get List of all delegate"
+      description: "Get List of all delegate"
+      operationId: "delegateGET"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ArrayOfDelegate"
+        400:
+          description: "Invalid value"
+      x-swagger-router-controller: "FetchDelegate"
+    post:
+      tags:
+      - "Delegate Onboard"
+      summary: "Onboard a delegate"
+      description: "Onboard a delegate."
+      operationId: "onboardDelegate"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "order placed for purchasing the pet"
+        required: true
+        schema:
+          $ref: "#/definitions/DelegateOnboard"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Delegate"
+        400:
+          description: "Invalid value"
+      x-swagger-router-controller: "DelegateOnboard"
+  /delegate/delegate_id/{delegate_id}:
+    get:
+      tags:
+      - "Fetch Delegate"
+      summary: "Returns a delegate on delegate_id provided"
+      description: "Returns a single delegate"
+      operationId: "getBydelegate_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "delegate_id"
+        in: "path"
+        description: "ID of delegate to return"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Delegate"
+        400:
+          description: "Invalid value"
+      x-swagger-router-controller: "FetchDelegate"
+  /delegate/eth_address/{eth_address}:
+    get:
+      tags:
+      - "Fetch Delegate"
+      summary: "Returns a delegate on eth_address provided"
+      description: "Returns a single delegate"
+      operationId: "getByeth_address"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "eth_address"
+        in: "path"
+        description: "eth_address of delegate to return"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Delegate"
+        400:
+          description: "Invalid value"
+      x-swagger-router-controller: "FetchDelegate"
+  /delegate/status/{status}:
+    get:
+      tags:
+      - "Fetch Delegate"
+      summary: "Returns list of delegate based on status provided"
+      description: "Returns delegate based on status"
+      operationId: "getBystatus"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "status"
+        in: "path"
+        description: "status of delegate to return"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ArrayOfDelegate"
+        400:
+          description: "Invalid value"
+      x-swagger-router-controller: "FetchDelegate"
+  /kyc/delegate_id/:
+    put:
+      tags:
+      - "KYC Operation"
+      summary: "Update KYC status of the delegate"
+      description: "Update KYC status of the delegate"
+      operationId: "updateDelegateByID"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "delegate ID and KYC status"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateDelegateByID"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Delegate"
+        400:
+          description: "Invalid value"
+      x-swagger-router-controller: "KYCOperation"
+  /kyc/eth_address/:
+    put:
+      tags:
+      - "KYC Operation"
+      summary: "Update KYC status of the delegate"
+      description: "Update KYC status of the delegate"
+      operationId: "updateDelegateByAddr"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "eth address and KYC status"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateDelegateByAddr"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Delegate"
+        400:
+          description: "Invalid value"
+      x-swagger-router-controller: "KYCOperation"
+definitions:
+  ArrayOfDelegate:
+    type: "array"
+    items:
+      $ref: "#/definitions/ArrayOfDelegate_inner"
+  Delegate:
+    type: "object"
+    properties:
+      delegate_id:
+        type: "integer"
+      eth_address:
+        type: "string"
+      status:
+        type: "string"
+    example:
+      eth_address: "eth_address"
+      delegate_id: 0
+      status: "status"
+  DelegateOnboard:
+    type: "object"
+    properties:
+      eth_address:
+        type: "string"
+      status:
+        type: "string"
+    example:
+      eth_address: "eth_address"
+      status: "status"
+  UpdateDelegateByID:
+    type: "object"
+    properties:
+      delegate_id:
+        type: "string"
+      status:
+        type: "string"
+    example:
+      delegate_id: "delegate_id"
+      status: "status"
+  UpdateDelegateByAddr:
+    type: "object"
+    properties:
+      eth_address:
+        type: "string"
+      status:
+        type: "string"
+    example:
+      eth_address: "eth_address"
+      status: "status"
+  ArrayOfDelegate_inner:
+    properties:
+      delegate_id:
+        type: "integer"
+      eth_address:
+        type: "string"
+      status:
+        type: "string"
